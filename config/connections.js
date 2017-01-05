@@ -28,7 +28,7 @@ let connections = {
 };
 
 module.exports = (function() {
-  let currentConnections = connections[process.env.ENV || 'development'];
+  let currentConnections = connections[process.env.NODE_ENV || 'development'];
   return Object.assign({},
     {appURL: `${currentConnections.server.hostname}:${currentConnections.server.port}`},
     currentConnections);
