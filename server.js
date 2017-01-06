@@ -69,13 +69,14 @@ function serverErrorHandler(err, req, res) {
  * @param {Function} callback - call if it passed, when server run
  */
 function run(callback) {
-  ORM.init();
-  server = app.listen(connections.server, () => {
-    console.log(`Server run on "${APP_URL}"`);
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    if (callback && typeof callback === 'function') {
-      callback();
-    }
+  ORM.init().then(() => {
+    server = app.listen(connections.server, () => {
+      console.log(`Server run on "${APP_URL}"`);
+      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    });    
   });
 }
 
