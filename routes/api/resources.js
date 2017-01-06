@@ -3,6 +3,7 @@
 let router = require('express').Router();
 let request = require('request-promise');
 let Promise = require('bluebird');
+let _ = require('lodash');
 
 router.get('/', (req, res) => {
 
@@ -32,7 +33,12 @@ router.get('/', (req, res) => {
         };
       });
   })
-    .then(response => res.jsonOk(response))
+    .then(response => {
+      let result = {};
+      // Merge all includet objects to result object 
+      _.each(response, data => _.merge(result, data));
+      res.jsonOk(result);
+    })
     .catch(error => res.jsonBad(error.message));
 });
 

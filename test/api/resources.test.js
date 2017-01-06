@@ -6,25 +6,21 @@ let _ = require('lodash');
 
 let dataSet = helpers.getDataSet();
 
+/**
+ * by DRY principe writen universal test case for all api resources
+ * look "test/dataset" and "test/helpers.js" to see how define tests for new api resources
+ */
 dataSet.forEach(data => {
 
   describe(`API ${data.modelName} test`, () => {
 
     describe(`GET ${data.modelName}`, () => {
 
-      before(done => {
-        helpers.getModelByName(data.modelName)
-          .bulkCreate(data.valid)
-          .then(() => done())
-          .catch(err => done(err));
-      });
+      // It create new data by model from ORM
+      before(done => helpers.createDataByModelName(data.modelName, data.valid, done));
 
-      after(done => {
-        helpers.getModelByName(data.modelName)
-          .truncate()
-          .then(() => done())
-          .catch(err => done(err));
-      });
+      // It delete data by model from ORM
+      after(done => helpers.cleanDataByModelName(data.modelName, done));
 
       it(`It should receive all ${data.modelName.toLowerCase()}`, done => {
         helpers.request.GET(data.uri)
@@ -84,12 +80,8 @@ dataSet.forEach(data => {
 
     describe(`POST ${data.modelName} test`, () => {
 
-      afterEach(done => {
-        helpers.getModelByName(data.modelName)
-          .truncate()
-          .then(() => done())
-          .catch(err => done(err));
-      });
+      // After all test case need to have clean DB
+      afterEach(done => helpers.cleanDataByModelName(data.modelName, done));
 
       it('It should create item', done => {
         let randomOriginItem = helpers.getRandomItem(data.valid);
@@ -125,19 +117,11 @@ dataSet.forEach(data => {
 
     describe(`PUT ${data.modelName} test`, () => {
 
-      before(done => {
-        helpers.getModelByName(data.modelName)
-          .bulkCreate(data.valid)
-          .then(() => done())
-          .catch(err => done(err));
-      });
+      // It create new data by model from ORM
+      before(done => helpers.createDataByModelName(data.modelName, data.valid, done));
 
-      after(done => {
-        helpers.getModelByName(data.modelName)
-          .truncate()
-          .then(() => done())
-          .catch(err => done(err));
-      });
+      // It delete data by model from ORM
+      after(done => helpers.cleanDataByModelName(data.modelName, done));
 
       it('It should update item', done => {
         let originItem = helpers.getRandomItem(data.valid);
@@ -178,19 +162,11 @@ dataSet.forEach(data => {
 
     describe(`DELETE ${data.modelName} test`, () => {
 
-      before(done => {
-        helpers.getModelByName(data.modelName)
-          .bulkCreate(data.valid)
-          .then(() => done())
-          .catch(err => done(err));
-      });
+      // It create new data by model from ORM
+      before(done => helpers.createDataByModelName(data.modelName, data.valid, done));
 
-      after(done => {
-        helpers.getModelByName(data.modelName)
-          .truncate()
-          .then(() => done())
-          .catch(err => done(err));
-      });
+      // It delete data by model from ORM
+      after(done => helpers.cleanDataByModelName(data.modelName, done));
 
       it('should delete item by id', done => {
         let itemId = helpers.getRandomItem(data.valid).id;

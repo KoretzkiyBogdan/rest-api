@@ -69,6 +69,20 @@ module.exports = {
     }
   },
 
+  createDataByModelName(modelName, data, done) {
+    this.getModelByName(modelName)
+      .bulkCreate(data)
+      .then(() => done())
+      .catch(err => done(err));
+  },
+
+  cleanDataByModelName(modelName, done) {
+    this.getModelByName(modelName)
+      .truncate()
+      .then(() => done())
+      .catch(err => done(err));
+  },
+
   getRandomItem(source = []) {
     return source[this.getRandomIntegerFromRange(source.length - 1)];
   },
