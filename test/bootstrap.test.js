@@ -8,6 +8,7 @@
 process.env.NODE_ENV = 'test';
 
 let path = require('path');
+let Promise = require('bluebird');
 
 let server = require(path.join(process.cwd(), 'server'));
 let helpers = require('./helpers');
