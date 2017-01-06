@@ -1,7 +1,7 @@
 language: node_js
 
 env: 
-  - NODE_ENV=test DB_MIGRATION=true DATABASE_URL=postgres://postgres@127.0.0.1:5432/test-api
+  - NODE_ENV=test DATABASE_MIGRATION=true DATABASE_URL=postgres://postgres@127.0.0.1:5432/test-api
 
 node_js:
   - "6.5"
