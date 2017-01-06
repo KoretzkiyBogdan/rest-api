@@ -6,7 +6,7 @@ router
   .get('/', (req, res) => {
     Customers.findAll().then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });
     }).catch(err => {
@@ -19,7 +19,7 @@ router
   .get('/:id', (req, res) => {
     Customers.findById(req.params.id).then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });
     }).catch(err => {
@@ -32,12 +32,12 @@ router
   .post('/', (req, res) => {
     Customers.create(req.body).then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });     
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });
@@ -49,12 +49,12 @@ router
       }
     }).then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });     
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });
@@ -66,12 +66,12 @@ router
       }
     }).then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });

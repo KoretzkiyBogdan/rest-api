@@ -6,12 +6,12 @@ router
   .get('/', (req, res) => {
     Contries.findAll().then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });
@@ -24,7 +24,7 @@ router
       });
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });
@@ -32,12 +32,12 @@ router
   .post('/', (req, res) => {
     Contries.create(req.body).then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });     
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });
@@ -49,12 +49,12 @@ router
       }
     }).then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });     
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });
@@ -66,12 +66,12 @@ router
       }
     }).then(response => {
       res.json({
-        succes: true,
+        success: true,
         data: response
       });
     }).catch(err => {
       res.json({
-        succes: false, 
+        success: false, 
         data: err.message
       });
     });

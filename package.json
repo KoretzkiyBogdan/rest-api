@@ -14,7 +14,8 @@
     "sequelize": "^3.28.0"
   },
   "devDependencies": {
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "should": "^11.1.2"
   },
   "scripts": {
     "start": "node index.js",

@@ -20,6 +20,7 @@ let connections = {
     databaseURL: 'postgres://rqddyyqrtzswki:f04c8adb9203f58c99708c270d1cc28dec04ce632d84bb5af6a1b549867355f0@ec2-46-137-117-43.eu-west-1.compute.amazonaws.com:5432/dela6s3hrodjgt',
     options: {
       dialect: 'postgres',
+      logging: false,
       dialectOptions: {
         ssl: true
       }
