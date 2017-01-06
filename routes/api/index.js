@@ -11,5 +11,4 @@ router.use('/customers', customers);
 router.use('/countries', countries);
 router.use('/resources', resources);
 
-
 module.exports = router;

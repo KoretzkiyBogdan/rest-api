@@ -13,7 +13,7 @@ let connections = {
         }
       }
     }
-  }, 
+  },
   test: {
     server: {
       port: process.env.PORT || 2000,

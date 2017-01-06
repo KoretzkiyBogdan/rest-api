@@ -13,25 +13,25 @@ router.get('/', (req, res) => {
   }
 
   Promise.map(innerResources, resourceKey => {
-    return request({
-      method: 'GET',
-      uri: `http://${APP_URL}/${req.query[resourceKey]}`,
-      json: true
-    })
-      .then(response => {
-        return {
+      return request({
+          method: 'GET',
+          uri: `http://${APP_URL}/${req.query[resourceKey]}`,
+          json: true
+        })
+        .then(response => {
+          return {
           [resourceKey]: response
-        };
-      })
-      .catch(err => {
-        return {
+          };
+        })
+        .catch(err => {
+          return {
           [resourceKey]: {
-            success: false,
-            data: err.message
-          }
-        };
-      });
-  })
+              success: false,
+              data: err.message
+            }
+          };
+        });
+    })
     .then(response => res.jsonOk(response))
     .catch(error => res.jsonBad(error.message));
 });

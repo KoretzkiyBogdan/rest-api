@@ -11,19 +11,31 @@ function doRequest(options) {
 module.exports = {
   request: {
     GET(uri) {
-      return doRequest({method: 'GET', uri}); 
+      return doRequest({
+        method: 'GET',
+        uri
+      });
     },
 
     POST(uri, options = {}) {
-      return doRequest(Object.assign({method: 'POST', uri}, options));
+      return doRequest(Object.assign({
+        method: 'POST',
+        uri
+      }, options));
     },
 
     PUT(uri, options = {}) {
-      return doRequest(Object.assign({method: 'PUT', uri}, options));
+      return doRequest(Object.assign({
+        method: 'PUT',
+        uri
+      }, options));
     },
 
     DELETE(uri) {
-      return doRequest({method: 'DELETE', uri});       
+      return doRequest({
+        method: 'DELETE',
+        uri
+      });
     }
   },
 

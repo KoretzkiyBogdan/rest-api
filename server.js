@@ -11,7 +11,9 @@ global['APP_URL'] = [connections.server.hostname, connections.server.port].join(
 
 let server = null;
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 app.use(requestLogger);
 app.use(extendResponseMethods);
@@ -27,8 +29,14 @@ function requestLogger(req, res, next) {
 }
 
 function extendResponseMethods(req, res, next) {
-  res.jsonOk = data => res.json({success: true, data});
-  res.jsonBad = data => res.json({success: false, data});
+  res.jsonOk = data => res.json({
+    success: true,
+    data
+  });
+  res.jsonBad = data => res.json({
+    success: false,
+    data
+  });
   next();
 }
 
@@ -37,7 +45,9 @@ function clientErrorHandler(req, res) {
 }
 
 function serverErrorHandler(err, req, res) {
-  res.status(500).send({error: 'Server Error'});
+  res.status(500).send({
+    error: 'Server Error'
+  });
 }
 
 function run(callback) {
