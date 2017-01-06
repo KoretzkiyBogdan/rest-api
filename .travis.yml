@@ -4,8 +4,7 @@ env:
   - NODE_ENV=test
 
 node_js:
-  - "6"
-  - "6.1"
+  - "6.5"
 
 script: 
   - npm test
