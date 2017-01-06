@@ -22,25 +22,100 @@ describe('API batch test', () => {
   });
 
   it('shouild get all resources by one query', done => {
+
+    // queryString looks like "users=api/users&countries=api/countries"
     let queryString = dataSet.map(data => `${data.modelName.toLowerCase()}=${data.uri}`).join('&');
+
     helpers.request.GET(`api/resources?${queryString}`)
+      .then(response => {
+
+        let modelNamesLowerKeys = dataSet.map(data => data.modelName.toLowerCase());
+
+        should.exists(response);
+        response.should.have.property('success', true);
+        response.should.have.property('data');
+        response.data.should.be.instanceof(Object);
+
+        _.each(response.data, (innerResponseItem, key) => {
+
+          // Change first character to uppercase
+          let originalModelName = key.replace(/^\w{1}/, char => char.toUpperCase());
+
+          should.exists(innerResponseItem);
+          innerResponseItem.should.have.property('success', true);
+          innerResponseItem.should.have.property('data');
+          innerResponseItem.data.should.be.instanceof(Array);
+
+          // removed timestamps from api data (it necessary to deep comparing)
+          let APIDataWithoutTimestamps = innerResponseItem.data.map(item => _.omit(item, ['createdAt', 'updatedAt']));
+
+          // Check if api returns model name right
+          _.includes(modelNamesLowerKeys, key).should.be.equal(true);
+
+          // Find the same model in dataSet and fetch valid data from it
+          let dataSetItems = _.chain(dataSet)
+            .find({modelName: originalModelName})
+            .get('valid', [])
+            .value();
+
+          should.deepEqual(dataSetItems, APIDataWithoutTimestamps);
+        });
+        done();
+      })
+      .catch(error => done(error));
+  });
+
+  it('should get only one resource by one type with "id" parameter', done => {
+
+    // Stored parameters to check if we receive same data which we ask
+    let innerRequestParams = [];
+
+    let queryString = dataSet.map(data => {
+      let randomItem = helpers.getRandomItem(data.valid);
+      innerRequestParams.push({
+        modelName: data.modelName.toLowerCase(),
+        id: randomItem.id
+      });
+      return `${data.modelName.toLowerCase()}=${data.uri}/${randomItem.id}`;
+    });
+
+    helpers.request.GET(`api/resources?${queryString.join('&')}`)
       .then(response => {
         should.exists(response);
         response.should.have.property('success', true);
         response.should.have.property('data');
         response.data.should.be.instanceof(Object);
 
-        let modelsKeys = dataSet.map(data => data.modelName.toLowerCase());
-        _.each(response.data, (items, key) => {
-          should.exists(items);
-          items.should.have.property('success', true);
-          items.should.have.property('data');
-          items.data.should.be.instanceof(Array);
-          _.includes(modelsKeys, key).should.be.equal(true);
-        })
+        _.each(response.data, (innerResponseItem, key) => {
+
+          // Change first character to uppercase
+          let originalModelName = key.replace(/^\w{1}/, char => char.toUpperCase());
+
+          should.exists(innerResponseItem);
+          innerResponseItem.should.have.property('success', true);
+          innerResponseItem.should.have.property('data');
+          innerResponseItem.data.should.be.instanceof(Object);
+
+          // Chack if we receive same data which we ask
+          _.find(innerRequestParams, {modelName: key, id: innerResponseItem.data.id}).should.be.instanceof(Object);
+
+          // removed timestamps from api data (it necessary to deep comparing)
+          let innerResponseItemWithoutTimestamps = _.omit(innerResponseItem.data, ['createdAt', 'updatedAt']);
+
+          // Find same item in dataSet (by id)
+          let sameDataSetItem = _.chain(dataSet)
+            .find({modelName: originalModelName})
+            .get('valid', [])
+            .find({id: innerResponseItemWithoutTimestamps.id})
+            .value();
+
+          should.exists(sameDataSetItem);
+          should.deepEqual(sameDataSetItem, innerResponseItemWithoutTimestamps);
+        });
+
         done();
       })
-      .catch(error => done(error))
-  })
+      .catch(error => done(error));
+  });
 
 });

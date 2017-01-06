@@ -3,23 +3,31 @@
 let path = require('path');
 let bodyParser = require('body-parser');
 let app = require('express')();
+
 let connections = require('./config/connections');
 let routes = require(path.join(__dirname, 'routes'));
 let ORM = require(path.join(__dirname, 'lib', 'ORM'));
 
+// Setting app url as global variable (used in api)
 global['APP_URL'] = [connections.server.hostname, connections.server.port].join(':');
 
+// instance of running server
 let server = null;
 
+// Standart middleware from Express docks
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
 app.use(requestLogger);
+
+// binding custom response methods (used in API)
 app.use(extendResponseMethods);
 
+// binding custom routes
 app.use('/', routes);
 
+// binding custom error handlers
 app.use(clientErrorHandler);
 app.use(serverErrorHandler);
 
@@ -28,6 +36,10 @@ function requestLogger(req, res, next) {
   next();
 }
 
+/**
+ * It extends response object. 
+ * Added two custom response (used in API)
+ */
 function extendResponseMethods(req, res, next) {
   res.jsonOk = data => res.json({
     success: true,
@@ -50,6 +62,12 @@ function serverErrorHandler(err, req, res) {
   });
 }
 
+/**
+ * Custom method to run server. Allows run server in tests
+ * Also init DB connections (ORM.init)
+ *
+ * @param {Function} callback - call if it passed, when server run
+ */
 function run(callback) {
   ORM.init();
   server = app.listen(connections.server, () => {
@@ -61,6 +79,11 @@ function run(callback) {
   });
 }
 
+/**
+ * Custom method to run server. Allows stop server in tests
+
+ * @param {Function} callback - call if it passed, when server stop
+ */
 function stop(callback) {
   if (server) {
     server.close(() => {

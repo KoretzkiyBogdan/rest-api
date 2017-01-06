@@ -16,11 +16,9 @@ dataSet.forEach(data => {
 
     describe(`GET ${data.modelName}`, () => {
 
-      // It create new data by model from ORM
       before(done => helpers.createDataByModelName(data.modelName, data.valid, done));
 
-      // It delete data by model from ORM
-      after(done => helpers.cleanDataByModelName(data.modelName, done));
+      after(done => helpers.clearDataByModelName(data.modelName, done));
 
       it(`It should receive all ${data.modelName.toLowerCase()}`, done => {
         helpers.request.GET(data.uri)
@@ -31,14 +29,17 @@ dataSet.forEach(data => {
             response.should.have.property('data');
             response.data.should.be.instanceof(Array).and.have.lengthOf(data.valid.length);
 
-            data.valid.forEach(originItem => {
-              let currentItem = _.find(response.data, {
-                id: originItem.id
+            data.valid.forEach(dataSetItem => {
+              let APIItem = _.find(response.data, {
+                id: dataSetItem.id
               });
-              should.exists(currentItem);
-              currentItem.should.be.instanceof(Object);
-              currentItem = _.omit(currentItem, ['createdAt', 'updatedAt']);
-              should.deepEqual(originItem, currentItem);
+              should.exists(APIItem);
+              APIItem.should.be.instanceof(Object);
+
+              // Removed timestamps from api data (necessary to deep comparing)
+              let APIItemWithoutTimestamps = _.omit(APIItem, ['createdAt', 'updatedAt']);
+              
+              should.deepEqual(dataSetItem, APIItemWithoutTimestamps);
             });
 
             done();
@@ -48,18 +49,19 @@ dataSet.forEach(data => {
 
       it('It should receive one item by id', done => {
 
-        let randomOriginItem = helpers.getRandomItem(data.valid);
+        let randomDataSetItem = helpers.getRandomItem(data.valid);
 
-        helpers.request.GET(data.uri + '/' + randomOriginItem.id)
+        helpers.request.GET(data.uri + '/' + randomDataSetItem.id)
           .then(response => {
 
             should.exists(response);
             response.should.have.property('success', true);
             response.should.have.property('data').and.should.be.instanceof(Object);
 
-            let currentItem = _.omit(response.data, ['createdAt', 'updatedAt']);
+            // Removed timestamps from api data (necessary to deep comparing)
+            let APIItemWithoutTimestamps = _.omit(response.data, ['createdAt', 'updatedAt']);
 
-            should.deepEqual(randomOriginItem, currentItem);
+            should.deepEqual(randomDataSetItem, APIItemWithoutTimestamps);
             done();
           })
           .catch(err => done(err));
@@ -80,20 +82,21 @@ dataSet.forEach(data => {
 
     describe(`POST ${data.modelName} test`, () => {
 
-      // After all test case need to have clean DB
-      afterEach(done => helpers.cleanDataByModelName(data.modelName, done));
+      afterEach(done => helpers.clearDataByModelName(data.modelName, done));
 
       it('It should create item', done => {
-        let randomOriginItem = helpers.getRandomItem(data.valid);
+        let randomDataSetItem = helpers.getRandomItem(data.valid);
         helpers.request.POST(data.uri, {
-          body: randomOriginItem
+          body: randomDataSetItem
         })
           .then(response => {
             should.exists(response);
             response.should.have.property('success', true);
             response.should.have.property('data').and.should.be.instanceof(Object);
-            let currentItem = _.omit(response.data, ['createdAt', 'updatedAt']);
-            should.deepEqual(randomOriginItem, currentItem);
+
+            // Removed timestamps from api data (necessary to deep comparing)
+            let APIItem = _.omit(response.data, ['createdAt', 'updatedAt']);
+            should.deepEqual(randomDataSetItem, APIItem);
             done();
           })
           .catch(error => done(error));
@@ -117,11 +120,9 @@ dataSet.forEach(data => {
 
     describe(`PUT ${data.modelName} test`, () => {
 
-      // It create new data by model from ORM
       before(done => helpers.createDataByModelName(data.modelName, data.valid, done));
 
-      // It delete data by model from ORM
-      after(done => helpers.cleanDataByModelName(data.modelName, done));
+      after(done => helpers.clearDataByModelName(data.modelName, done));
 
       it('It should update item', done => {
         let originItem = helpers.getRandomItem(data.valid);
@@ -162,11 +163,9 @@ dataSet.forEach(data => {
 
     describe(`DELETE ${data.modelName} test`, () => {
 
-      // It create new data by model from ORM
       before(done => helpers.createDataByModelName(data.modelName, data.valid, done));
 
-      // It delete data by model from ORM
-      after(done => helpers.cleanDataByModelName(data.modelName, done));
+      after(done => helpers.clearDataByModelName(data.modelName, done));
 
       it('should delete item by id', done => {
         let itemId = helpers.getRandomItem(data.valid).id;

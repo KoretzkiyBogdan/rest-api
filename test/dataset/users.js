@@ -1,11 +1,19 @@
-// Oh, look's like we have pink floyd here :)
+/**
+ * Data Set from "Contries" model
+ * 
+ * P.S. Oh, looks like we have all members of pink floyd here :)
+ */
 module.exports = {
+  // Used when need create records in DB
   modelName: 'Users',
+  // Used when need fetch records throught API
   uri: 'api/users',
+  // Used in test cases which updating existing resources throught API
   updateData: {
     firstName: 'test',
     lastName: 'test-test'
   },
+  // Used in test cases which create/receive records from API and in "before/after" hooks
   valid: [
     {
       id: 1,

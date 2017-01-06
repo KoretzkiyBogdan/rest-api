@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Actually, it is sense of my challenge :)
+ * It simply use request-promise module and asked himself using request uri
+ * It available to integration in existing Express app
+ */
 let router = require('express').Router();
 let request = require('request-promise');
 let Promise = require('bluebird');

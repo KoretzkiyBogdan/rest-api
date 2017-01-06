@@ -1,9 +1,16 @@
+/**
+ * Data Set from "Contries" model 
+ */
 module.exports = {
+  // Used when need create records in DB
   modelName: 'Countries',
+  // Used when need fetch records throught API
   uri: 'api/countries',
+  // Used in test cases which updating existing resources throught API
   updateData: {
     name: 'test'
   },
+  // Used in test cases which create/receive records from API and in "before/after" hooks
   valid: [
     {
       id: 1,
@@ -26,6 +33,7 @@ module.exports = {
       name: 'France'
     }
   ],
+  // Used in test cases which expect receive error from API
   notValid: [
     {
       id: 'so-so',
