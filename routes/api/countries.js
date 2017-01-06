@@ -4,25 +4,25 @@ let router = require('express').Router();
 
 router
   .get('/', (req, res) => {
-    Contries
+    Countries
       .findAll()
       .then(response => res.jsonOk(response))
       .catch(error => res.jsonBad(error.message));
   })
   .get('/:id', (req, res) => {
-    Contries
+    Countries
       .findById(req.params.id)
       .then(response => res.jsonOk(response))
       .catch(error => res.jsonBad(error.message));
   })
   .post('/', (req, res) => {
-    Contries
+    Countries
       .create(req.body)
       .then(response => res.jsonOk(response))
       .catch(error => res.jsonBad(error.message));
   })
   .put('/', (req, res) => {
-    Contries
+    Countries
       .update(req.body, {
         where: {
           id: req.params.id
@@ -32,7 +32,7 @@ router
       .catch(error => res.jsonBad(error.message));
   })
   .delete('/:id', (req, res) => {
-    Contries
+    Countries
       .destroy({
         where: {
           id: req.params.id

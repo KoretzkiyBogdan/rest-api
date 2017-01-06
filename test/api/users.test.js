@@ -11,7 +11,7 @@ describe('API users test', () => {
 
     before(done => {
       Users.bulkCreate(usersDataSet)
-        .then(response => done())
+        .then(() => done())
         .catch(err => done(err));
     });
 
@@ -63,11 +63,11 @@ describe('API users test', () => {
     });
 
     it('It should return "false" status and error message (wrong id test)', done => {
-      helpers.request.GET(`api/users/42bb343`)
+      helpers.request.GET('api/users/42bb343')
         .then(response => {
           should.exists(response);
           response.should.have.property('success', false);
-          response.should.have.property('data')
+          response.should.have.property('data');
           response.data.should.be.type('string');
           done();
         })
@@ -120,7 +120,7 @@ describe('API users test', () => {
 
     before(done => {
       Users.bulkCreate(usersDataSet)
-        .then(response => done())
+        .then(() => done())
         .catch(err => done(err));
     });
 
@@ -153,8 +153,8 @@ describe('API users test', () => {
     });
 
     it('It should return "false" status and error message (wrong id test)', done => {
-      let randomUser = usersDataSet[helpers.getRandomIntegerFromRange(usersDataSet.length - 1)];;
-      helpers.request.PUT(`api/users/33emm`, {body: randomUser})
+      let randomUser = usersDataSet[helpers.getRandomIntegerFromRange(usersDataSet.length - 1)];
+      helpers.request.PUT('api/users/33emm', {body: randomUser})
         .then(response => {
           should.exists(response);
           response.should.have.property('success', false);
@@ -170,7 +170,7 @@ describe('API users test', () => {
 
     before(done => {
       Users.bulkCreate(usersDataSet)
-        .then(response => done())
+        .then(() => done())
         .catch(err => done(err));
     });
 
@@ -197,7 +197,7 @@ describe('API users test', () => {
     });
 
     it('It should return "false" status and error message (wrong id test)', done => {
-      helpers.request.DELETE(`api/users/dfdfdf`)
+      helpers.request.DELETE('api/users/dfdfdf')
         .then(response => {
           should.exists(response);
           response.should.have.property('success', false);

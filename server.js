@@ -32,12 +32,12 @@ function extendResponseMethods(req, res, next) {
   next();
 }
 
-function clientErrorHandler(req, res, next) {
+function clientErrorHandler(req, res) {
   res.jsonBad(`Not found path "${req.path}"`);
 }
 
-function serverErrorHandler(err, req, res, next) {
-  res.status(500).send({error: 'Server Error'})
+function serverErrorHandler(err, req, res) {
+  res.status(500).send({error: 'Server Error'});
 }
 
 function run(callback) {

@@ -15,13 +15,16 @@
     "sequelize": "^3.28.0"
   },
   "devDependencies": {
+    "eslint": "^3.12.2",
+    "eslint-config-google": "^0.7.1",
     "mocha": "^3.2.0",
     "should": "^11.1.2"
   },
   "scripts": {
     "start": "node index.js",
-    "test": "mocha test/bootstrap.test.js test/**/*.test.js -t 90000"
+    "test": "mocha test/bootstrap.test.js test/**/*.test.js -t 90000",
+    "lint": "eslint config/** lib/** models/** routes/** test/** server.js;"
   },
-  "author": "",
+  "author": "Koretskyi Bogdan",
   "license": "ISC"
 }

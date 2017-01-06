@@ -1,10 +1,10 @@
 'use strict';
-let path = require('path');
+
 let router = require('express').Router();
 let request = require('request-promise');
 let Promise = require('bluebird');
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
 
   let innerResources = Object.keys(req.query);
 

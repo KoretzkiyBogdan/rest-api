@@ -1,7 +1,6 @@
 'use strict';
-let path = require('path');
+
 let request = require('request-promise');
-let should = require('should');
 
 function doRequest(options) {
   options.json = true;
