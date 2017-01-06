@@ -4,47 +4,36 @@ let router = require('express').Router();
 let request = require('request-promise');
 let Promise = require('bluebird');
 
-let appURL = require(path.join(process.cwd(), 'config', 'connections')).appURL;
-
 router.get('/', (req, res, next) => {
-  let innerRoutes = Object.keys(req.query);
 
-  if (!innerRoutes.length) {
-    res.json({
-      success: false,
-      data: 'Parameters required!'
-    });
-    return;
+  let innerResources = Object.keys(req.query);
+
+  if (!innerResources.length) {
+    return res.jsonBad('Parameters required!');
   }
 
-  Promise.map(innerRoutes, resourceKey => {
+  Promise.map(innerResources, resourceKey => {
     return request({
       method: 'GET',
-      uri: `http://${appURL}/${req.query[resourceKey]}`,
+      uri: `http://${APP_URL}/${req.query[resourceKey]}`,
       json: true
-    }).then(response => {
-      return {
-        [resourceKey]: response
-      };
-    }).catch(err => {
-      return {
-        [resourceKey]: {
-          success: false,
-          data: err.message
-        }
-      };    
-    });
-  }).then(response => {
-    res.json({
-      success: true,
-      data: response
-    });
-  }).catch(err => {
-    res.json({
-      success: false,
-      data: err.message
-    });
-  });
+    })
+      .then(response => {
+        return {
+          [resourceKey]: response
+        };
+      })
+      .catch(err => {
+        return {
+          [resourceKey]: {
+            success: false,
+            data: err.message
+          }
+        };
+      });
+  })
+    .then(response => res.jsonOk(response))
+    .catch(error => res.jsonBad(error.message));
 });
 
 module.exports = router;

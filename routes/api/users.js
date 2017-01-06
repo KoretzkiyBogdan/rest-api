@@ -4,77 +4,42 @@ let router = require('express').Router();
 
 router
   .get('/', (req, res) => {
-    Users.findAll().then(response => {
-      res.json({
-        success: true,
-        data: response
-      });
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Users
+      .findAll()
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .get('/:id', (req, res) => {
-    Users.findById(req.params.id).then(response => {
-      res.json({
-        succes: true,
-        data: response
-      });
-    }).catch(err => {
-      res.json({
-        succes: false, 
-        data: err.message
-      });
-    });
+    Users
+      .findById(req.params.id)
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .post('/', (req, res) => {
-    Users.create(req.body).then(response => {
-      res.json({
-        success: true,
-        data: response
-      });     
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Users
+      .create(req.body)
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .put('/:id', (req, res) => {
-    Users.update(req.body, {
-      where: {
-        id: req.params.id
-      }
-    }).then(response => {
-      res.json({
-        success: true,
-        data: response
-      });     
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Users
+      .update(req.body, {
+        where: {
+          id: req.params.id
+        }
+      })
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .delete('/:id', (req, res) => {
-    Users.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(response => {
-      res.json({
-        success: true,
-        data: response
-      });
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Users
+      .destroy({
+        where: {
+          id: req.params.id
+        }
+      })
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   });
 
 module.exports = router;

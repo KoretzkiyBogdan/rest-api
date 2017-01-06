@@ -1,29 +1,34 @@
 'use strict';
 let path = require('path');
-let appURL = require(path.join(process.cwd(), 'config', 'connections')).appURL;
 let request = require('request-promise');
+let should = require('should');
 
-function doRequest(params) {
-  return request(params);
+function doRequest(options) {
+  options.json = true;
+  options.uri = `http://${APP_URL}/${options.uri}`;
+  return request(options);
 }
 
 module.exports = {
   request: {
-    GET(url) {
-      return doRequest({
-        method: 'GET',
-        uri: `http://${appURL}/${url}`, 
-        json: true
-      });
+    GET(uri) {
+      return doRequest({method: 'GET', uri}); 
     },
-    POST(url, params = {}) {
-      let options = {
-        method: 'POST',
-        uri: `http://${appURL}/${url}`,
-        body: params.body, 
-        json: true
-      };
-      return doRequest(options);
+
+    POST(uri, options = {}) {
+      return doRequest(Object.assign({method: 'POST', uri}, options));
+    },
+
+    PUT(uri, options = {}) {
+      return doRequest(Object.assign({method: 'PUT', uri}, options));
+    },
+
+    DELETE(uri) {
+      return doRequest({method: 'DELETE', uri});       
     }
+  },
+
+  getRandomIntegerFromRange(max = 1, min = 0) {
+    return Math.floor(Math.random() * (max - min) + min);
   }
 };

@@ -4,77 +4,42 @@ let router = require('express').Router();
 
 router
   .get('/', (req, res) => {
-    Contries.findAll().then(response => {
-      res.json({
-        success: true,
-        data: response
-      });
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Contries
+      .findAll()
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .get('/:id', (req, res) => {
-    Contries.findById(req.params.id).then(response => {
-      res.json({
-        succes: true,
-        data: response
-      });
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Contries
+      .findById(req.params.id)
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .post('/', (req, res) => {
-    Contries.create(req.body).then(response => {
-      res.json({
-        success: true,
-        data: response
-      });     
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Contries
+      .create(req.body)
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .put('/', (req, res) => {
-    Contries.update(req.body, {
-      where: {
-        id: req.params.id
-      }
-    }).then(response => {
-      res.json({
-        success: true,
-        data: response
-      });     
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Contries
+      .update(req.body, {
+        where: {
+          id: req.params.id
+        }
+      })
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   })
   .delete('/:id', (req, res) => {
-    Contries.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(response => {
-      res.json({
-        success: true,
-        data: response
-      });
-    }).catch(err => {
-      res.json({
-        success: false, 
-        data: err.message
-      });
-    });
+    Contries
+      .destroy({
+        where: {
+          id: req.params.id
+        }
+      })
+      .then(response => res.jsonOk(response))
+      .catch(error => res.jsonBad(error.message));
   });
 
 module.exports = router;

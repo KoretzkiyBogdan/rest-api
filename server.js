@@ -7,38 +7,43 @@ let connections = require('./config/connections');
 let routes = require(path.join(__dirname, 'routes'));
 let ORM = require(path.join(__dirname, 'lib', 'ORM'));
 
+global['APP_URL'] = [connections.server.hostname, connections.server.port].join(':');
+
 let server = null;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(requestLogger);
+app.use(extendResponseMethods);
 
 app.use('/', routes);
 
-app.use(logErrors);
-app.use(errorHandler);
+app.use(clientErrorHandler);
+app.use(serverErrorHandler);
 
 function requestLogger(req, res, next) {
   console.log(req.method, req.path);
   next();
 }
 
-
-function logErrors(err, req, res, next) {
-  console.error(err.stack);
-  next(err);
+function extendResponseMethods(req, res, next) {
+  res.jsonOk = data => res.json({success: true, data});
+  res.jsonBad = data => res.json({success: false, data});
+  next();
 }
 
-function errorHandler(err, req, res, next) {
+function clientErrorHandler(req, res, next) {
+  res.jsonBad(`Not found path "${req.path}"`);
+}
+
+function serverErrorHandler(err, req, res, next) {
   res.status(500).send({error: 'Server Error'})
 }
 
 function run(params, callback) {
-  if (params && params.loadModels) {
-    ORM.init();
-  }
+  ORM.init();
   server = app.listen(connections.server, () => {
-    console.log(`Server run on port "${server.address().port}"`);
+    console.log(`Server run on "${APP_URL}"`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     if (callback && typeof callback === 'function') {
       callback();
