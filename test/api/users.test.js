@@ -88,8 +88,8 @@ describe('API users test', () => {
     it('It should create user', done => {
       let randomOriginUser = usersDataSet[helpers.getRandomIntegerFromRange(usersDataSet.length - 1)];
       helpers.request.POST('api/users', {
-          body: randomOriginUser
-        })
+        body: randomOriginUser
+      })
         .then(response => {
           should.exists(response);
           response.should.have.property('success', true);
@@ -107,8 +107,8 @@ describe('API users test', () => {
         age: 100
       };
       helpers.request.POST('api/users', {
-          body: wrongUser
-        })
+        body: wrongUser
+      })
         .then(response => {
           should.exists(response);
           response.should.have.property('success', false);
@@ -142,8 +142,8 @@ describe('API users test', () => {
         lastName: 'test-test'
       };
       helpers.request.PUT(`api/users/${userId}`, {
-          body: changedUser
-        })
+        body: changedUser
+      })
         .then(response => {
           should.exists(response);
           response.should.have.property('success', true);
@@ -161,8 +161,8 @@ describe('API users test', () => {
     it('It should return "false" status and error message (wrong id test)', done => {
       let randomUser = usersDataSet[helpers.getRandomIntegerFromRange(usersDataSet.length - 1)];
       helpers.request.PUT('api/users/33emm', {
-          body: randomUser
-        })
+        body: randomUser
+      })
         .then(response => {
           should.exists(response);
           response.should.have.property('success', false);
