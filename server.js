@@ -40,7 +40,7 @@ function serverErrorHandler(err, req, res, next) {
   res.status(500).send({error: 'Server Error'})
 }
 
-function run(params, callback) {
+function run(callback) {
   ORM.init();
   server = app.listen(connections.server, () => {
     console.log(`Server run on "${APP_URL}"`);

@@ -7,9 +7,7 @@ let server = require(path.join(process.cwd(), 'server'));
 
 
 before(done => {
-  server.run({
-    loadModels: true
-  }, () => {
+  server.run(() => {
     done();
   });
 });
