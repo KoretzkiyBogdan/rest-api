@@ -21,7 +21,7 @@ router
       .then(response => res.jsonOk(response))
       .catch(error => res.jsonBad(error.message));
   })
-  .put('/', (req, res) => {
+  .put('/:id', (req, res) => {
     Customers
       .update(req.body, {
         where: {
