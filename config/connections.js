@@ -25,7 +25,7 @@ let connections = {
         dialect: 'postgres',
         logging: false,
         dialectOptions: {
-          ssl: false
+          ssl: true
         }
       }
     }
