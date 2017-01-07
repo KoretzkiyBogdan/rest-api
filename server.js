@@ -8,9 +8,6 @@ let connections = require('./config/connections');
 let routes = require(path.join(__dirname, 'routes'));
 let ORM = require(path.join(__dirname, 'lib', 'ORM'));
 
-// Setting app url as global variable (used in api)
-global['APP_URL'] = [connections.server.hostname, connections.server.port].join(':');
-
 // instance of running server
 let server = null;
 
@@ -71,10 +68,10 @@ function serverErrorHandler(err, req, res) {
 function run(callback) {
   ORM.init().then(() => {
     server = app.listen(connections.server, () => {
-      console.log(`Server run on "${APP_URL}"`);
+      console.log(`Server listen port: ${server.address().port}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
       if (callback && typeof callback === 'function') {
-        callback();
+        callback(server);
       }
     });    
   });

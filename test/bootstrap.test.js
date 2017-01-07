@@ -15,7 +15,9 @@ let helpers = require('./helpers');
 let dataSet = helpers.getDataSet();
 
 before(done => {
-  server.run(() => {
+  server.run(server => {
+    // Used in helpers.js
+    global['APP_URL'] = `localhost:${server.address().port}`;
     // Cleaning all tables which use in dataset before tests
     Promise.map(dataSet, data => helpers.getModelByName(data.modelName).truncate())
       .then(() => done())

@@ -26,7 +26,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha test/bootstrap.test.js test/**/*.test.js -t 90000",
-    "lint": "eslint config/** lib/** models/** routes/** test/** server.js;"
+    "lint": "eslint ./"
   },
   "author": "Koretskyi Bogdan",
   "license": "ISC",
