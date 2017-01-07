@@ -5,7 +5,7 @@ let connections = {
       hostname: process.env.HOST || '127.0.0.1'
     },
     database: {
-      url: 'postgres://lednfhywxjosqd:N_H4CeuhL9w7rVTA13006LKEIl@ec2-79-125-107-77.eu-west-1.compute.amazonaws.com:5432/dcl4unqojtfgc3',
+      url: process.env.DATABASE_URL,
       options: {
         dialect: 'postgres',
         dialectOptions: {
