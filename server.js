@@ -2,7 +2,8 @@
 
 let path = require('path');
 let bodyParser = require('body-parser');
-let app = require('express')();
+let express = require('express')
+let app = express();
 
 let connections = require('./config/connections');
 let routes = require(path.join(__dirname, 'routes'));
@@ -23,6 +24,8 @@ app.use(extendResponseMethods);
 
 // binding custom routes
 app.use('/', routes);
+
+app.use('/', express.static('public'));
 
 // binding custom error handlers
 app.use(clientErrorHandler);
