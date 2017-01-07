@@ -38,7 +38,7 @@ describe('API batch test', () => {
 
         _.each(response.data, (innerResponseItem, key) => {
 
-          // Change first character to uppercase
+          // It changed first character to uppercase
           let originalModelName = key.replace(/^\w{1}/, char => char.toUpperCase());
 
           should.exists(innerResponseItem);
@@ -46,10 +46,10 @@ describe('API batch test', () => {
           innerResponseItem.should.have.property('data');
           innerResponseItem.data.should.be.instanceof(Array);
 
-          // removed timestamps from api data (it necessary to deep comparing)
+          // It removed timestamps from api data (it necessary to deep comparing)
           let APIDataWithoutTimestamps = innerResponseItem.data.map(item => _.omit(item, ['createdAt', 'updatedAt']));
 
-          // Check if api returns model name right
+          // Checked if api returns model name right
           _.includes(modelNamesLowerKeys, key).should.be.equal(true);
 
           // Find the same model in dataSet and fetch valid data from it
@@ -88,7 +88,7 @@ describe('API batch test', () => {
 
         _.each(response.data, (innerResponseItem, key) => {
 
-          // Change first character to uppercase
+          // Changed first character to uppercase
           let originalModelName = key.replace(/^\w{1}/, char => char.toUpperCase());
 
           should.exists(innerResponseItem);
@@ -96,10 +96,10 @@ describe('API batch test', () => {
           innerResponseItem.should.have.property('data');
           innerResponseItem.data.should.be.instanceof(Object);
 
-          // Chack if we receive same data which we ask
+          // Checked if we receive same data which we ask
           _.find(innerRequestParams, {modelName: key, id: innerResponseItem.data.id}).should.be.instanceof(Object);
 
-          // removed timestamps from api data (it necessary to deep comparing)
+          // Removed timestamps from api data (it necessary to deep comparing)
           let innerResponseItemWithoutTimestamps = _.omit(innerResponseItem.data, ['createdAt', 'updatedAt']);
 
           // Find same item in dataSet (by id)

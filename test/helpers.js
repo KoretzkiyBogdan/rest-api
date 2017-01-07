@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Simple helpers deom tests in order to don't write same code many times
+ * Simple helpers in order to don't write same code many times
  */
 let request = require('request-promise');
 let path = require('path');
@@ -12,8 +12,8 @@ const dataSetDir = path.join(__dirname, 'dataset');
 /**
  * Merge options with default params (APP_URL) and call request module
  *
- * @param   {Object}
- * @return  {Promise}
+ * @param    {Object}
+ * @returns  {Promise}
  */
 function doRequest(options) {
   options.json = true;
@@ -81,7 +81,7 @@ module.exports = {
   },
 
   /**
-   * Loading and return all data from dataset folder
+   * Loads and returns all data from dataset folder
    *
    * @returns {Array}
    */
@@ -104,7 +104,7 @@ module.exports = {
   },
 
   /**
-   * Return link on Sequelize model instanse
+   * Returns link on Sequelize.Model instanse
    *
    * @param   {String} name
    * @returns {Object}
@@ -118,7 +118,7 @@ module.exports = {
   },
 
   /**
-   * Creating records in DB with ORM (use "before" test cases)
+   * Created records in DB with ORM (used in "before" hook)
    *
    * @param   {String}   name
    * @param   {Array}    data
@@ -133,7 +133,7 @@ module.exports = {
   },
 
   /**
-   * Deleting records in DB with ORM (use "after" test cases)
+   * Removed records in DB with ORM (use "after" test cases)
    *
    * @param   {String}   name
    * @param   {Function} done - callback, call when all records created (or when catch error)
@@ -147,7 +147,7 @@ module.exports = {
   },
 
   /**
-   * Return random item from source list (used when needs create/delete one record)
+   * Returns random item from source list (used when needs create/delete one record)
    *
    * @param   {Array}   source
    * @returns {Object}
@@ -157,7 +157,7 @@ module.exports = {
   },
 
   /**
-   * Return random integer from range
+   * Returns random integer from range
    *
    * @param   {Number}   max - top of range
    * @param   {nember}   min - bottom of range

@@ -7,7 +7,7 @@ let _ = require('lodash');
 let dataSet = helpers.getDataSet();
 
 /**
- * by DRY principe writen universal test case for all api resources
+ * By DRY principle writen universal test case for all api resources
  * look "test/dataset" and "test/helpers.js" to see how define tests for new api resources
  */
 dataSet.forEach(data => {
