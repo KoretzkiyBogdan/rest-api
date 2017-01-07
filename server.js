@@ -2,7 +2,7 @@
 
 let path = require('path');
 let bodyParser = require('body-parser');
-let express = require('express')
+let express = require('express');
 let app = express();
 
 let connections = require('./config/connections');
