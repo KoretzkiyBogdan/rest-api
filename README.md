@@ -1,18 +1,20 @@
 # rest-api
-# how to use
+# how to use 
+#### (Before use locally set env variables DATABASE_MIGRATION=true DATABASE_URL={yourPotgresDBLink})
+
   1) npm install
   
-  2) npm run lint (optional)
+  2) npm run lint
   
-  3) npm test (optional, define DATABASE_URL first)
+  3) npm test
   
   4) npm start
   
-It runs on port 3000 or 2000 (development/test) by default (you can define PORT variable)
+It runs on port 3000 or 2000 (development/test) by default
 
-I created one instance of Portgres (for development env) on Heroku and added it to connections.js
+For manual test created one instance of Portgres and node on Heroku. Check here (https://simple-rest-api-test.herokuapp.com)
 
-Also, added travis CI and tuned it ( see https://travis-ci.org/KoretzkiyBogdan/rest-api )
+Also, added travis CI and tuned it. Check here (https://travis-ci.org/KoretzkiyBogdan/rest-api)
 
 ### API:
 > GET api/{resource-name} - get all records by recourse name
