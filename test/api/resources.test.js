@@ -58,7 +58,7 @@ dataSet.forEach(data => {
             response.should.have.property('success', true);
             response.should.have.property('data').and.should.be.instanceof(Object);
 
-            // Removed timestamps from api data (necessary to deep comparing)
+            // Removed timestamps from api data (necessary for deep comparing)
             let APIItemWithoutTimestamps = _.omit(response.data, ['createdAt', 'updatedAt']);
 
             should.deepEqual(randomDataSetItem, APIItemWithoutTimestamps);
@@ -94,7 +94,7 @@ dataSet.forEach(data => {
             response.should.have.property('success', true);
             response.should.have.property('data').and.should.be.instanceof(Object);
 
-            // Removed timestamps from api data (necessary to deep comparing)
+            // Removed timestamps from api data (necessary for deep comparing)
             let APIItem = _.omit(response.data, ['createdAt', 'updatedAt']);
             should.deepEqual(randomDataSetItem, APIItem);
             done();

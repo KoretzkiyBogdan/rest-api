@@ -46,7 +46,7 @@ describe('API batch test', () => {
           innerResponseItem.should.have.property('data');
           innerResponseItem.data.should.be.instanceof(Array);
 
-          // It removed timestamps from api data (it necessary to deep comparing)
+          // It removed timestamps from api data (it necessary for deep comparing)
           let APIDataWithoutTimestamps = innerResponseItem.data.map(item => _.omit(item, ['createdAt', 'updatedAt']));
 
           // Checked if api returns model name right
