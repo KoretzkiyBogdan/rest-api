@@ -1,5 +1,6 @@
 # rest-api
-# how to use 
+  Module for GETting multiple resources look in "lib/batch"
+# How to use 
 #### (Before use locally set env variables DATABASE_MIGRATION=true DATABASE_URL={yourPotgresDBLink})
 
   1) npm install
@@ -12,7 +13,7 @@
   
 It runs on port 3000 or 2000 (development/test) by default
 
-For manual test created one instance of Portgres and node on Heroku. Check here (https://simple-rest-api-test.herokuapp.com)
+For manual testing created one instance of Portgres and node on Heroku. Check here (https://simple-rest-api-test.herokuapp.com)
 
 Also, added travis CI and tuned it. Check here (https://travis-ci.org/KoretzkiyBogdan/rest-api)
 
