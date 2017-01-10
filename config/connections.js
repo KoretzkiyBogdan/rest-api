@@ -32,5 +32,4 @@ let connections = {
   }
 };
 
-// Returns connections which depend on current enviroment
-module.exports = (() => connections[process.env.NODE_ENV || 'development'])();
+module.exports = connections;

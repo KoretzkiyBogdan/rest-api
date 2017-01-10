@@ -68,16 +68,23 @@ function serverErrorHandler(err, req, res) {
  *
  * @param {Function} callback - call if it passed, when server run
  */
-function run(callback) {
-  ORM.init().then(() => {
-    server = app.listen(connections.server, () => {
-      console.log(`Server listen port: ${server.address().port}`);
-      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-      if (callback && typeof callback === 'function') {
-        callback(server);
-      }
-    });    
-  });
+function run({env = 'development', migration = false} = {}, callback) {
+  ORM.init({
+    database: connections[env].database, 
+    migration
+  })
+    .then(() => {
+      server = app.listen(connections[env].server, () => {
+        console.log(`Server listen port: ${server.address().port}`);
+        console.log(`Environment: ${env}`);
+        if (callback && typeof callback === 'function') {
+          callback(server);
+        }
+      });    
+    })
+    .catch(error => {
+      throw new Error(error.message);
+    });
 }
 
 /**

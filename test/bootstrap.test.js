@@ -4,9 +4,6 @@
  * It's main test file which runs and stops server (see npm "test" script in packege.json)
  */
 
-// Setting environment by hardcode style (yes, i know it is not a good decision)
-process.env.NODE_ENV = 'test';
-
 let path = require('path');
 let Promise = require('bluebird');
 
@@ -15,7 +12,10 @@ let helpers = require('./helpers');
 let dataSet = helpers.getDataSet();
 
 before(done => {
-  server.run(server => {
+  server.run({
+    env: 'test',
+    migration: true
+  }, server => {
     // Used in helpers.js
     global['APP_URL'] = `localhost:${server.address().port}`;
     // Cleaning all tables which use in dataset before tests
