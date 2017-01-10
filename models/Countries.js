@@ -17,7 +17,7 @@ module.exports = {
   },
   options: {
     timestamps: true,
-    tableName: 'contries',
+    tableName: 'countries',
     classMethods: {},
     instanceMethods: {},
     hooks: {}
