@@ -6,20 +6,20 @@ router
   .get('/', (req, res) => {
     Countries
       .findAll()
-      .then(response => res.jsonOk(response))
-      .catch(error => res.jsonBad(error.message));
+      .then(response => res.json(response))
+      .catch(error => res.status(500).json({error: error.message}));
   })
   .get('/:id', (req, res) => {
     Countries
       .findById(req.params.id)
-      .then(response => res.jsonOk(response))
-      .catch(error => res.jsonBad(error.message));
+      .then(response => res.json(response))
+      .catch(error => res.status(500).json({error: error.message}));
   })
   .post('/', (req, res) => {
     Countries
       .create(req.body)
-      .then(response => res.jsonOk(response))
-      .catch(error => res.jsonBad(error.message));
+      .then(response => res.json(response))
+      .catch(error => res.status(500).json({error: error.message}));
   })
   .put('/:id', (req, res) => {
     Countries
@@ -28,8 +28,8 @@ router
           id: req.params.id
         }
       })
-      .then(response => res.jsonOk(response))
-      .catch(error => res.jsonBad(error.message));
+      .then(response => res.json(response))
+      .catch(error => res.status(500).json({error: error.message}));
   })
   .delete('/:id', (req, res) => {
     Countries
@@ -38,8 +38,8 @@ router
           id: req.params.id
         }
       })
-      .then(response => res.jsonOk(response))
-      .catch(error => res.jsonBad(error.message));
+      .then(response => res.json(response))
+      .catch(error => res.status(500).json({error: error.message}));
   });
 
 module.exports = router;

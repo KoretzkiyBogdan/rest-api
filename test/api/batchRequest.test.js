@@ -32,22 +32,18 @@ describe('API batch test', () => {
         let modelNamesLowerKeys = dataSet.map(data => data.modelName.toLowerCase());
 
         should.exists(response);
-        response.should.have.property('success', true);
-        response.should.have.property('data');
-        response.data.should.be.instanceof(Object);
+        response.should.be.instanceof(Object);
 
-        _.each(response.data, (innerResponseItem, key) => {
+        _.each(response, (innerResponseItem, key) => {
 
           // It changed first character to uppercase
           let originalModelName = key.replace(/^\w{1}/, char => char.toUpperCase());
 
           should.exists(innerResponseItem);
-          innerResponseItem.should.have.property('success', true);
-          innerResponseItem.should.have.property('data');
-          innerResponseItem.data.should.be.instanceof(Array);
+          innerResponseItem.should.be.instanceof(Array);
 
           // It removed timestamps from api data (it necessary for deep comparing)
-          let APIDataWithoutTimestamps = innerResponseItem.data.map(item => _.omit(item, ['createdAt', 'updatedAt']));
+          let APIDataWithoutTimestamps = innerResponseItem.map(item => _.omit(item, ['createdAt', 'updatedAt']));
 
           // Checked if api returns model name right
           _.includes(modelNamesLowerKeys, key).should.be.equal(true);
@@ -82,25 +78,21 @@ describe('API batch test', () => {
     helpers.request.GET(`api/resources?${queryString.join('&')}`)
       .then(response => {
         should.exists(response);
-        response.should.have.property('success', true);
-        response.should.have.property('data');
-        response.data.should.be.instanceof(Object);
+        response.should.be.instanceof(Object);
 
-        _.each(response.data, (innerResponseItem, key) => {
+        _.each(response, (innerResponseItem, key) => {
 
           // Changed first character to uppercase
           let originalModelName = key.replace(/^\w{1}/, char => char.toUpperCase());
 
           should.exists(innerResponseItem);
-          innerResponseItem.should.have.property('success', true);
-          innerResponseItem.should.have.property('data');
-          innerResponseItem.data.should.be.instanceof(Object);
+          innerResponseItem.should.be.instanceof(Object);
 
           // Checked if we receive same data which we ask
-          _.find(innerRequestParams, {modelName: key, id: innerResponseItem.data.id}).should.be.instanceof(Object);
+          _.find(innerRequestParams, {modelName: key, id: innerResponseItem.id}).should.be.instanceof(Object);
 
           // Removed timestamps from api data (it necessary to deep comparing)
-          let innerResponseItemWithoutTimestamps = _.omit(innerResponseItem.data, ['createdAt', 'updatedAt']);
+          let innerResponseItemWithoutTimestamps = _.omit(innerResponseItem, ['createdAt', 'updatedAt']);
 
           // Find same item in dataSet (by id)
           let sameDataSetItem = _.chain(dataSet)

@@ -19,9 +19,6 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(requestLogger);
 
-// binding custom response methods (used in API)
-app.use(extendResponseMethods);
-
 // binding custom routes
 app.use('/', routes);
 
@@ -36,28 +33,14 @@ function requestLogger(req, res, next) {
   next();
 }
 
-/**
- * It extends response object. 
- * Added two custom response (used in API)
- */
-function extendResponseMethods(req, res, next) {
-  res.jsonOk = data => res.json({
-    success: true,
-    data
-  });
-  res.jsonBad = data => res.json({
-    success: false,
-    data
-  });
-  next();
-}
-
 function clientErrorHandler(req, res) {
-  res.jsonBad(`Not found path "${req.path}"`);
+  res.status(404).json({
+    error:`Not found path "${req.path}"`
+  });
 }
 
 function serverErrorHandler(err, req, res) {
-  res.status(500).send({
+  res.status(500).json({
     error: 'Server Error'
   });
 }

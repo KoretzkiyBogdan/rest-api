@@ -25,12 +25,10 @@ dataSet.forEach(data => {
           .then(response => {
 
             should.exists(response);
-            response.should.have.property('success', true);
-            response.should.have.property('data');
-            response.data.should.be.instanceof(Array).and.have.lengthOf(data.valid.length);
+            response.should.be.instanceof(Array).and.have.lengthOf(data.valid.length);
 
             data.valid.forEach(dataSetItem => {
-              let APIItem = _.find(response.data, {
+              let APIItem = _.find(response, {
                 id: dataSetItem.id
               });
               should.exists(APIItem);
@@ -55,11 +53,10 @@ dataSet.forEach(data => {
           .then(response => {
 
             should.exists(response);
-            response.should.have.property('success', true);
-            response.should.have.property('data').and.should.be.instanceof(Object);
+            response.should.be.instanceof(Object);
 
             // Removed timestamps from api data (necessary for deep comparing)
-            let APIItemWithoutTimestamps = _.omit(response.data, ['createdAt', 'updatedAt']);
+            let APIItemWithoutTimestamps = _.omit(response, ['createdAt', 'updatedAt']);
 
             should.deepEqual(randomDataSetItem, APIItemWithoutTimestamps);
             done();
@@ -70,13 +67,13 @@ dataSet.forEach(data => {
       it('It should return "false" status and error message (wrong id test)', done => {
         helpers.request.GET(`${data.uri}/` + helpers.getRandomItem(data.notValid).id)
           .then(response => {
-            should.exists(response);
-            response.should.have.property('success', false);
-            response.should.have.property('data');
-            response.data.should.be.type('string');
+            should.not.exists(response);
             done();
           })
-          .catch(err => done(err));
+          .catch(error => {
+            should.exists(error);
+            done();
+          });
       });
     });
 
@@ -91,11 +88,10 @@ dataSet.forEach(data => {
         })
           .then(response => {
             should.exists(response);
-            response.should.have.property('success', true);
-            response.should.have.property('data').and.should.be.instanceof(Object);
+            response.should.be.instanceof(Object);
 
             // Removed timestamps from api data (necessary for deep comparing)
-            let APIItem = _.omit(response.data, ['createdAt', 'updatedAt']);
+            let APIItem = _.omit(response, ['createdAt', 'updatedAt']);
             should.deepEqual(randomDataSetItem, APIItem);
             done();
           })
@@ -108,13 +104,13 @@ dataSet.forEach(data => {
           body: wrongItem
         })
           .then(response => {
-            should.exists(response);
-            response.should.have.property('success', false);
-            response.should.have.property('data');
-            response.data.should.be.type('string');
+            should.not.exists(response);
             done();
           })
-          .catch(error => done(error));
+          .catch(error => {
+            should.exists(error);
+            done();
+          });
       });
     });
 
@@ -133,8 +129,6 @@ dataSet.forEach(data => {
         })
           .then(response => {
             should.exists(response);
-            response.should.have.property('success', true);
-            response.should.have.property('data');
             return helpers.getModelByName(data.modelName).findById(originItem.id);
           })
           .then(item => {
@@ -151,13 +145,13 @@ dataSet.forEach(data => {
           body: randomItem
         })
           .then(response => {
-            should.exists(response);
-            response.should.have.property('success', false);
-            response.should.have.property('data');
-            response.data.should.be.type('string');
+            should.not.exists(response);
             done();
           })
-          .catch(error => done(error));
+          .catch(error => {
+            should.exists(error);
+            done();
+          });
       });
     });
 
@@ -172,8 +166,6 @@ dataSet.forEach(data => {
         helpers.request.DELETE(`${data.uri}/${itemId}`)
           .then(response => {
             should.exists(response);
-            response.should.have.property('success', true);
-            response.should.have.property('data');
             return helpers.getModelByName(data.modelName).findById(itemId);
           })
           .then(item => {
@@ -187,13 +179,13 @@ dataSet.forEach(data => {
         let itemId = helpers.getRandomItem(data.notValid).id;
         helpers.request.DELETE(`${data.uri}/${itemId}`)
           .then(response => {
-            should.exists(response);
-            response.should.have.property('success', false);
-            response.should.have.property('data');
-            response.data.should.be.type('string');
+            should.not.exists(response);
             done();
           })
-          .catch(error => done(error));
+          .catch(error => {
+            should.exists(error);
+            done();
+          });
       });
     });
   });
